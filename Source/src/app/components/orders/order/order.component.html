@@ -1,0 +1,15 @@
+
+<div class="container bootstrap snipets" *ngIf="order">
+  <h3 class="text-center text-muted">Order Number: {{ orderId }}</h3>
+  <div class="row col-md-12">
+    <div class="col-xs-6 col-md-12 mb-3" *ngFor="let bookId of order.books; index as i; first as isFirst">
+      <div class="book border p-3">
+        <div class="book-content">
+          <div class="book-details">
+            <app-book [bookId]="bookId"></app-book>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

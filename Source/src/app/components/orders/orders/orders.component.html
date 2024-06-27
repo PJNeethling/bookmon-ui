@@ -1,0 +1,16 @@
+<div class="container bootstrap snipets" *ngIf="ordersExists">
+  <h1 class="text-center text-muted">Orders</h1>
+  <div class="row">
+    <div class="col-xs-6 col-md-12 mb-3" *ngFor="let order of ordersObject; index as i; first as isFirst">
+      <div class="order border p-3" [routerLink]="['/orders', order.id]">
+        <div class="order-content">
+          <div class="order-details">
+              <h4>Order Number: {{ order.id }}</h4>
+              <p class="text-secondary"><strong> Count: {{ getItemCount(order) }}</strong></p>
+              <p class="text-secondary">Created Date: {{ order.createdDate | date: "MMM d, yyyy 'at' hh:mm'"}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

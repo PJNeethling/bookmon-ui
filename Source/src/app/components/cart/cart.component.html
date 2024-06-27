@@ -1,0 +1,21 @@
+<div class="cart">
+    <h2>Cart</h2>
+  <div *ngIf="cartItems.length === 0" class="empty-cart-message">
+    Your cart is empty.
+  </div>
+  <div *ngIf="cartItems.length > 0">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="item-details">
+        <span class="item-info">{{ item.title }} - R{{ item.price }}</span>
+        <button class="remove-item" (click)="removeFromCart(item)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    <div class="cart-total">
+      Total: R {{ calculateTotal() }}
+    </div>
+  </div>
+  <button (click)="checkout()" class="btn checkout-button">Checkout Cart</button>
+</div>
+  

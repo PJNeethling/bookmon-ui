@@ -1,0 +1,28 @@
+<div>
+  <nav class="navbar navbar-expand navbar-dark bg-success">
+    <a href="#" class="navbar-brand" routerLink="books">{{ title }} </a>
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/home" class="nav-link" routerLink="books">Books</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="/orders" class="nav-link" routerLink="orders">Orders</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a href="#" class="nav-link" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+    <button (click)="toggleCart()" class="btn open-cart-button" *ngIf="isLoggedIn">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge">{{ cartItemCount }}</span>
+    </button>
+  </nav>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+  <app-cart *ngIf="showCart" (checkoutComplete)="hideCart()">
+    <button class="close-cart" (click)="toggleCart()">
+      <i class="fas fa-times"></i>
+    </button>
+  </app-cart>
+</div>

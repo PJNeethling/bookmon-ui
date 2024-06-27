@@ -1,0 +1,42 @@
+<div class="container bootstrap snipets" *ngIf="booksExists">
+  <h1 class="text-center text-muted">Books Catalog</h1>
+  <div class="row">
+    <div class="col-xs-6 col-md-12 mb-3" *ngFor="let book of books; index as i; first as isFirst">
+      <div class="book border p-3">
+        <div class="book-content"(click)="openModal(template, book)">
+          <img src="https://th.bing.com/th/id/R.e6ace2acca9a96625d192871a151ce00?rik=tNHdmOhvZ7zWAQ&pid=ImgRaw&r=0" alt="Book Image" class="book-image">
+          <div class="book-details">
+            <h4>{{ book.title }}</h4>
+            <p class="text-secondary">{{ book.author }}</p>
+            <span class="price">R{{ book.price }}</span>
+          </div>
+        </div>
+        <button (click)="addToCart(book)" class="btn add-to-cart-button mt-3">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ selectedBook?.title }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img src="https://th.bing.com/th/id/R.e6ace2acca9a96625d192871a151ce00?rik=tNHdmOhvZ7zWAQ&pid=ImgRaw&r=0" alt="Book Image" class="book-image">
+
+    <p>{{ selectedBook?.description }}</p>
+    <p><strong>Author:</strong> {{ selectedBook.author }}</p>
+    <p><strong>Genre:</strong> {{ selectedBook.genre }}</p>
+    <p><strong>Publication Date:</strong> {{ selectedBook.publicationDate | date }}</p>
+    <p><strong>Publisher:</strong> {{ selectedBook.publisher }}</p>
+    <p><strong>Page Count:</strong> {{ selectedBook.pageCount }}</p>
+    <p><strong>Price:</strong> R{{ selectedBook.price }}</p>
+    <p><strong>Language:</strong> {{ selectedBook.language }}</p>
+    <p><strong>Format:</strong> {{ selectedBook.format }}</p>
+  </div>
+</ng-template>

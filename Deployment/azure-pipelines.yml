@@ -1,0 +1,76 @@
+trigger:
+  - main
+  
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  node_version: '22.1.0'
+  workingDirectory: $(Build.SourcesDirectory)/Source
+  contextDirectory: Bookmon-UI/Source'
+
+parameters:
+- name: buildConfiguration
+  displayName: 'Build Configuration'
+  type: string
+  default: 'Dev'
+  values:
+    - 'Dev'
+    - 'Production'
+
+name: $(majorVer).$(minorVer)$(rev:.r)-$(date:yyyyMMdd)-${{ parameters.buildConfiguration }}
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '$(node_version)'
+  displayName: 'Install Node.js'
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: 'install'
+    workingDir: $(workingDirectory)
+    verbose: false
+
+- ${{ if eq(parameters.buildConfiguration, 'Dev') }}:
+  - task: Npm@1
+    displayName: 'npm run build -c --development'
+    inputs:
+      workingDir: $(workingDirectory)
+      command: custom
+      verbose: false
+      customCommand: 'run build -c --development'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(workingDirectory)/dist/bookmon-ui
+      ArtifactName: 'artifact-development'
+
+- ${{ if eq(parameters.buildConfiguration, 'Production') }}:
+  - task: Npm@1
+    displayName: 'npm run build -c --production'
+    inputs:
+      workingDir: $(workingDirectory)
+      command: custom
+      verbose: false
+      customCommand: 'run build -c --production'
+    
+- task: Npm@1
+  displayName: 'Run angular unit tests'
+  inputs:
+      command: custom
+      customCommand: run test -- --watch=false --code-coverage
+      workingDir: $(workingDirectory)
+
+- task: PublishTestResults@2
+  displayName: 'Publish Angular Test Results'
+  inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: '$(workingDirectory)/test-results.trx'
+    
+- ${{ if eq(parameters.buildConfiguration, 'Production') }}:
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(workingDirectory)/dist/bookmon-ui
+      ArtifactName: 'artifact-production'

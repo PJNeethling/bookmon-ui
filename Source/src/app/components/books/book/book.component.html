@@ -1,0 +1,13 @@
+<div class="book-details" *ngIf="book">
+    <img src="https://th.bing.com/th/id/R.e6ace2acca9a96625d192871a151ce00?rik=tNHdmOhvZ7zWAQ&pid=ImgRaw&r=0" alt="Book Image" class="book-image">
+
+    <h2>{{ book.title }}</h2>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Genre:</strong> {{ book.genre }}</p>
+    <p><strong>Publication Date:</strong> {{ book.publicationDate | date }}</p>
+    <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+    <p><strong>Page Count:</strong> {{ book.pageCount }}</p>
+    <p><strong>Price:</strong> R{{ book.price }}</p>
+    <p><strong>Language:</strong> {{ book.language }}</p>
+    <p><strong>Format:</strong> {{ book.format }}</p>
+</div>
